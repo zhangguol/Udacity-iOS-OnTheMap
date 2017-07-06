@@ -13,6 +13,13 @@
 		B22409091F05C3B900D24CC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B22409081F05C3B900D24CC8 /* Assets.xcassets */; };
 		B224090C1F05C3B900D24CC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B224090A1F05C3B900D24CC8 /* LaunchScreen.storyboard */; };
 		B22409171F05C3B900D24CC8 /* OnTheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22409161F05C3B900D24CC8 /* OnTheMapTests.swift */; };
+		B22409271F05C48E00D24CC8 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22409261F05C48E00D24CC8 /* HttpClient.swift */; };
+		B22409291F05C4F000D24CC8 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22409281F05C4F000D24CC8 /* APIProtocol.swift */; };
+		B224092B1F05C73C00D24CC8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224092A1F05C73C00D24CC8 /* Result.swift */; };
+		B224092D1F05D04400D24CC8 /* ParseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224092C1F05D04400D24CC8 /* ParseAPI.swift */; };
+		B2AA97631F0EF7A600352E82 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AA97621F0EF7A600352E82 /* UserData.swift */; };
+		B2E5E0921F0DB6E30093863F /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5E0911F0DB6E30093863F /* StudentLocation.swift */; };
+		B2E5E0961F0DBE990093863F /* UdacityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5E0951F0DBE990093863F /* UdacityAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +35,7 @@
 /* Begin PBXFileReference section */
 		B22408FE1F05C3B900D24CC8 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22409011F05C3B900D24CC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B22409031F05C3B900D24CC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B22409031F05C3B900D24CC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
 		B22409061F05C3B900D24CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B22409081F05C3B900D24CC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B224090B1F05C3B900D24CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +43,13 @@
 		B22409121F05C3B900D24CC8 /* OnTheMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnTheMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22409161F05C3B900D24CC8 /* OnTheMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapTests.swift; sourceTree = "<group>"; };
 		B22409181F05C3B900D24CC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B22409261F05C48E00D24CC8 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		B22409281F05C4F000D24CC8 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		B224092A1F05C73C00D24CC8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		B224092C1F05D04400D24CC8 /* ParseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPI.swift; sourceTree = "<group>"; };
+		B2AA97621F0EF7A600352E82 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		B2E5E0911F0DB6E30093863F /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		B2E5E0951F0DBE990093863F /* UdacityAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,12 +91,12 @@
 		B22409001F05C3B900D24CC8 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				B22409011F05C3B900D24CC8 /* AppDelegate.swift */,
-				B22409031F05C3B900D24CC8 /* ViewController.swift */,
 				B22409051F05C3B900D24CC8 /* Main.storyboard */,
-				B22409081F05C3B900D24CC8 /* Assets.xcassets */,
-				B224090A1F05C3B900D24CC8 /* LaunchScreen.storyboard */,
-				B224090D1F05C3B900D24CC8 /* Info.plist */,
+				B22409211F05C40100D24CC8 /* Models */,
+				B22409221F05C41600D24CC8 /* Views */,
+				B22409231F05C43400D24CC8 /* ViewControllers */,
+				B22409241F05C44900D24CC8 /* Utils */,
+				B22409251F05C45F00D24CC8 /* Support Files */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -94,6 +108,53 @@
 				B22409181F05C3B900D24CC8 /* Info.plist */,
 			);
 			path = OnTheMapTests;
+			sourceTree = "<group>";
+		};
+		B22409211F05C40100D24CC8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B2E5E0911F0DB6E30093863F /* StudentLocation.swift */,
+				B2AA97621F0EF7A600352E82 /* UserData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B22409221F05C41600D24CC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B22409231F05C43400D24CC8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B22409031F05C3B900D24CC8 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B22409241F05C44900D24CC8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B22409261F05C48E00D24CC8 /* HttpClient.swift */,
+				B22409281F05C4F000D24CC8 /* APIProtocol.swift */,
+				B224092C1F05D04400D24CC8 /* ParseAPI.swift */,
+				B2E5E0951F0DBE990093863F /* UdacityAPI.swift */,
+				B224092A1F05C73C00D24CC8 /* Result.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B22409251F05C45F00D24CC8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B22409011F05C3B900D24CC8 /* AppDelegate.swift */,
+				B22409081F05C3B900D24CC8 /* Assets.xcassets */,
+				B224090A1F05C3B900D24CC8 /* LaunchScreen.storyboard */,
+				B224090D1F05C3B900D24CC8 /* Info.plist */,
+			);
+			name = "Support Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,7 +262,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2E5E0961F0DBE990093863F /* UdacityAPI.swift in Sources */,
+				B22409291F05C4F000D24CC8 /* APIProtocol.swift in Sources */,
+				B224092B1F05C73C00D24CC8 /* Result.swift in Sources */,
+				B2AA97631F0EF7A600352E82 /* UserData.swift in Sources */,
+				B2E5E0921F0DB6E30093863F /* StudentLocation.swift in Sources */,
 				B22409041F05C3B900D24CC8 /* ViewController.swift in Sources */,
+				B22409271F05C48E00D24CC8 /* HttpClient.swift in Sources */,
+				B224092D1F05D04400D24CC8 /* ParseAPI.swift in Sources */,
 				B22409021F05C3B900D24CC8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,6 +482,7 @@
 				B224091D1F05C3B900D24CC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B224091E1F05C3B900D24CC8 /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +491,7 @@
 				B22409201F05C3B900D24CC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

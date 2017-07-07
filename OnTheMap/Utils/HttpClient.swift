@@ -10,6 +10,8 @@ import Foundation
 
 class HTTPClient {
 
+    static let shard = HTTPClient()
+    
     let session = URLSession(configuration: .default)
 
     deinit {

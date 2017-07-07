@@ -14,7 +14,7 @@ enum UdacityAPI: APIProtocol {
     case deleteSession
     case getPublicUserData(userID: String)
 
-    static let baseURL: String = "https://www.udacity.com/api/"
+    static let baseURL: String = "https://www.udacity.com/api"
 
     var path: String {
         switch self {

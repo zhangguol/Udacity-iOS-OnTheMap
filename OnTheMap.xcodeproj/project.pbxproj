@@ -20,6 +20,8 @@
 		B22409291F05C4F000D24CC8 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22409281F05C4F000D24CC8 /* APIProtocol.swift */; };
 		B224092B1F05C73C00D24CC8 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224092A1F05C73C00D24CC8 /* Result.swift */; };
 		B224092D1F05D04400D24CC8 /* ParseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224092C1F05D04400D24CC8 /* ParseAPI.swift */; };
+		B22F6D7A1F1D946700456808 /* StateViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F6D791F1D946700456808 /* StateViewControllerProtocols.swift */; };
+		B22F6D7C1F1D965500456808 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F6D7B1F1D965500456808 /* Store.swift */; };
 		B2AA97631F0EF7A600352E82 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AA97621F0EF7A600352E82 /* UserData.swift */; };
 		B2E5E0921F0DB6E30093863F /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5E0911F0DB6E30093863F /* StudentLocation.swift */; };
 		B2E5E0961F0DBE990093863F /* UdacityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E5E0951F0DBE990093863F /* UdacityAPI.swift */; };
@@ -53,6 +55,8 @@
 		B22409281F05C4F000D24CC8 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		B224092A1F05C73C00D24CC8 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		B224092C1F05D04400D24CC8 /* ParseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPI.swift; sourceTree = "<group>"; };
+		B22F6D791F1D946700456808 /* StateViewControllerProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateViewControllerProtocols.swift; sourceTree = "<group>"; };
+		B22F6D7B1F1D965500456808 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		B2AA97621F0EF7A600352E82 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		B2E5E0911F0DB6E30093863F /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		B2E5E0951F0DBE990093863F /* UdacityAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAPI.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 		B22409231F05C43400D24CC8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B22F6D781F1D943F00456808 /* StateViewController */,
 				B22409031F05C3B900D24CC8 /* LoginViewController.swift */,
 			);
 			path = ViewControllers;
@@ -164,6 +169,15 @@
 				B224090D1F05C3B900D24CC8 /* Info.plist */,
 			);
 			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		B22F6D781F1D943F00456808 /* StateViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B22F6D791F1D946700456808 /* StateViewControllerProtocols.swift */,
+				B22F6D7B1F1D965500456808 /* Store.swift */,
+			);
+			name = StateViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,10 +292,12 @@
 				B2E5E0921F0DB6E30093863F /* StudentLocation.swift in Sources */,
 				B22409041F05C3B900D24CC8 /* LoginViewController.swift in Sources */,
 				B21E4EBB1F1446BD00F779E4 /* AppState.swift in Sources */,
+				B22F6D7C1F1D965500456808 /* Store.swift in Sources */,
 				B22409271F05C48E00D24CC8 /* HttpClient.swift in Sources */,
 				B224092D1F05D04400D24CC8 /* ParseAPI.swift in Sources */,
 				B22409021F05C3B900D24CC8 /* AppDelegate.swift in Sources */,
 				B21E4EBD1F14470900F779E4 /* UIViewController+Alert.swift in Sources */,
+				B22F6D7A1F1D946700456808 /* StateViewControllerProtocols.swift in Sources */,
 				B21E4EB91F14447000F779E4 /* UdacityAccount.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,22 +13,95 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loginButton: UIButton!
 
+    var store: Store<Action, State, Command>!
+    
+    lazy var reducer: (State, Action) -> (state: State, command: Command?) = {
+        [weak self] (state: State, action: Action) in
+
+        var state = state
+        var command: Command? = nil
+
+        switch action {
+        case .updateUsername(let username): state.username = username
+        case .updatePassword(let pwd): state.password = pwd
+        case .login: command = Command.login { self?.store.dispatch(.didLogin(result: $0)) }
+        case .signup: command = Command.signup
+        case .didLogin(let result): command = Command.didLogin(result: result)
+        }
+
+        return (state, command)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        store = Store(
+            reducer: reducer,
+            initialState: State(username: "", password: "")
+        )
+        
+        store.subscribe { [weak self] state, prevState, command in
+            self?.stateDidChanged(state: state, previousState: prevState, command: command)
+        }
+        
+        stateDidChanged(state: store.state, previousState: nil, command: nil)
+    }
+    
+    private func stateDidChanged(state: State, previousState: State?, command: Command?) {
+        if let command = command {
+            switch command {
+            case let .login(handler):
+                loadingIndicator.startAnimating()
+                login(username: state.username, password: state.password, completion: handler)
+            case .didLogin(let result):
+                switch result {
+                case .success: didLogin()
+                case .failure(let error): showErrorAlert(with: error.localizedDescription)
+                }
+            case .signup: signup()
+            }
+        }
+        
+        if previousState == nil
+            || previousState!.username != state.username
+            || previousState!.password != state.password {
+          
+            let enable = !state.username.isEmpty && !state.password.isEmpty
+            loginButton.isEnabled = enable
+            loginButton.backgroundColor = enable ? UIColor(red:0.13, green:0.71, blue:0.88, alpha:1.00) : .gray
+        }
     }
 
     @IBAction func loginButtonTapped(_ sender: UIButton) {
-        guard
-            let username = emailTextField.text,
-            let password = passwordTextField.text,
-            !username.isEmpty && !password.isEmpty
-        else {
-            showErrorAlert(with: "Empty Email or Password")
-            return
-        }
+        store.dispatch(.login)
+    }
+    
+    @IBAction func signupButtonTapped(_ sender: UIButton) {
+        store.dispatch(.signup)
+    }
+    
+    @IBAction func textFieldValueChanged(_ sender: UITextField) {
+        let value = sender.text ?? ""
+        let action: Action = {
+            switch sender {
+            case emailTextField: return .updateUsername(username: value)
+            case passwordTextField: return .updatePassword(password: value)
+            default: fatalError()
+            }
+        }()
+        
+        store.dispatch(action)
+    }
 
+    private func signup() {
+        let url = URL(string: "https://www.udacity.com/account/auth#!/signup")
+        url.map { UIApplication.shared.open($0, options: [:], completionHandler: nil) }
+    }
+    
+    private func login(username: String, password: String, completion: @escaping (Result<Void>) -> Void) {
         loadingIndicator.startAnimating()
         HTTPClient.shard.jsonRequest(
             api: UdacityAPI.postSession(username: username, password: password)
@@ -60,8 +133,28 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBAction func signupButtonTapped(_ sender: UIButton) {
-        let url = URL(string: "https://www.udacity.com/account/auth#!/signup")
-        url.map { UIApplication.shared.open($0, options: [:], completionHandler: nil) }
+    private func didLogin() {
+        print("Logged in")
+    }
+}
+
+extension LoginViewController {
+    struct State: StateType {
+        var username: String
+        var password: String
+    }
+
+    enum Action: ActionType {
+        case updateUsername(username: String)
+        case updatePassword(password: String)
+        case login
+        case signup
+        case didLogin(result: Result<Void>)
+    }
+
+    enum Command: Commandtype {
+        case signup
+        case login(completion: (Result<Void>) -> Void)
+        case didLogin(result: Result<Void>)
     }
 }

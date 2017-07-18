@@ -47,6 +47,11 @@ enum UdacityAPI: APIProtocol {
 
     func requestDecorator(request: inout URLRequest) {
         switch self {
+        case .postSession:
+            [
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            ].forEach { request.addValue($0.value, forHTTPHeaderField: $0.key) }
         case .deleteSession:
             HTTPCookieStorage.shared.cookies?
                 .filter { $0.name == "XSRF-TOKEN" }

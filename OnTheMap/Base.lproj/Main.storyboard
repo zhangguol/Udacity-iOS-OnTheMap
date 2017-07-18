@@ -76,6 +76,9 @@
                                     <action selector="signupButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qTh-MM-lbc"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Tjq-NP-oaI">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -90,6 +93,8 @@
                             <constraint firstItem="SJr-Ky-u7e" firstAttribute="trailing" secondItem="NLU-IS-EwA" secondAttribute="trailing" id="OQ8-aI-Xcf"/>
                             <constraint firstItem="c2Q-zr-qXO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Sbz-u5-kFQ"/>
                             <constraint firstItem="a4G-wE-nVe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XET-Mz-B0h"/>
+                            <constraint firstItem="Tjq-NP-oaI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="f9p-3x-Pfv"/>
+                            <constraint firstItem="Tjq-NP-oaI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="iwf-t1-CSE"/>
                             <constraint firstAttribute="trailing" secondItem="ceG-gf-lj8" secondAttribute="trailing" constant="64" id="jrC-dw-2zA"/>
                             <constraint firstItem="NLU-IS-EwA" firstAttribute="height" secondItem="ceG-gf-lj8" secondAttribute="height" id="kqz-gU-mjH"/>
                             <constraint firstItem="a4G-wE-nVe" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="60" id="unO-F2-004"/>
@@ -98,6 +103,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="ceG-gf-lj8" id="7Rf-rW-lk6"/>
+                        <outlet property="loadingIndicator" destination="Tjq-NP-oaI" id="htP-7M-TTg"/>
                         <outlet property="passwordTextField" destination="NLU-IS-EwA" id="eEJ-K9-VPc"/>
                     </connections>
                 </viewController>

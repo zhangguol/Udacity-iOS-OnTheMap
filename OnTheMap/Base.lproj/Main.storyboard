@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -112,13 +113,103 @@
                         <outlet property="loadingIndicator" destination="Tjq-NP-oaI" id="htP-7M-TTg"/>
                         <outlet property="loginButton" destination="SJr-Ky-u7e" id="N7Q-eI-9FK"/>
                         <outlet property="passwordTextField" destination="NLU-IS-EwA" id="eEJ-K9-VPc"/>
+                        <segue destination="UFX-XE-V50" kind="presentation" identifier="showOnTheMap" id="6fh-Wi-4KE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-767" y="54"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="zej-ql-cEX">
+            <objects>
+                <viewController id="nwr-3A-KIn" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IuU-Di-ZT4"/>
+                        <viewControllerLayoutGuide type="bottom" id="nla-JD-ffc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jYm-WP-omz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="icon_listview-deselected" selectedImage="icon_listview-selected" id="lNw-22-VYp">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v6e-pg-uCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1930" y="382"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="4Fp-e0-up5">
+            <objects>
+                <viewController id="9Z9-cK-49n" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kmd-Ps-0OH"/>
+                        <viewControllerLayoutGuide type="bottom" id="8C5-lC-xND"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jRe-T3-oaR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="icon_mapview-deselected" selectedImage="icon_mapview-selected" id="ftR-XU-7DG">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PV1-2p-35r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1930" y="-272"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ib8-Et-I1J">
+            <objects>
+                <navigationController id="UFX-XE-V50" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="88V-eb-Qin">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Lf7-iC-vLC" kind="relationship" relationship="rootViewController" id="NdW-Yb-ruz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vrK-o3-CqN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="164" y="54"/>
+        </scene>
+        <!--On The Map-->
+        <scene sceneID="n2g-W0-adY">
+            <objects>
+                <tabBarController id="Lf7-iC-vLC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="On The Map" id="rJo-ft-7wK">
+                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="ouR-Fg-1SF"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="1oW-JE-3Wc"/>
+                            <barButtonItem systemItem="refresh" id="api-aK-qHe"/>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="vBk-Lk-hql">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="9Z9-cK-49n" kind="relationship" relationship="viewControllers" id="8nI-xz-9UM"/>
+                        <segue destination="nwr-3A-KIn" kind="relationship" relationship="viewControllers" id="9t8-BM-92w"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QVJ-WA-YcL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978" y="54"/>
         </scene>
     </scenes>
     <resources>
+        <image name="icon_listview-deselected" width="75" height="50"/>
+        <image name="icon_listview-selected" width="75" height="50"/>
+        <image name="icon_mapview-deselected" width="75" height="50"/>
+        <image name="icon_mapview-selected" width="75" height="50"/>
         <image name="logo-u" width="62" height="62"/>
     </resources>
 </document>

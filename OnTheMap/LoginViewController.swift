@@ -26,9 +26,20 @@ class LoginViewController: UIViewController {
         switch action {
         case .updateUsername(let username): state.username = username
         case .updatePassword(let pwd): state.password = pwd
-        case .login: command = Command.login { self?.store.dispatch(.didLogin(result: $0)) }
+        case .login: command = Command.login { result in
+            switch result {
+            case .success(let account):
+                self?.store.dispatch(.loginSuccess(account: account))
+            case .failure(let error):
+                self?.store.dispatch(.loginFailed(message: error.localizedDescription))
+            }
+        }
         case .signup: command = Command.signup
-        case .didLogin(let result): command = Command.didLogin(result: result)
+        case .clearCredentials:
+            self?.store.dispatch(.updateUsername(username: ""))
+            self?.store.dispatch(.updatePassword(password: ""))
+        case .loginSuccess(let account): command = Command.loginSuccess(account: account)
+        case .loginFailed(let msg): command = Command.loginFailed(message: msg)
         }
 
         return (state, command)
@@ -56,11 +67,12 @@ class LoginViewController: UIViewController {
             case let .login(handler):
                 loadingIndicator.startAnimating()
                 login(username: state.username, password: state.password, completion: handler)
-            case .didLogin(let result):
-                switch result {
-                case .success: didLogin()
-                case .failure(let error): showErrorAlert(with: error.localizedDescription)
-                }
+            case .loginSuccess(let account):
+                loadingIndicator.stopAnimating()
+                didLogin(with: account)
+            case .loginFailed(message: let msg):
+                loadingIndicator.stopAnimating()
+                showErrorAlert(with: msg)
             case .signup: signup()
             }
         }
@@ -101,40 +113,34 @@ class LoginViewController: UIViewController {
         url.map { UIApplication.shared.open($0, options: [:], completionHandler: nil) }
     }
     
-    private func login(username: String, password: String, completion: @escaping (Result<Void>) -> Void) {
-        loadingIndicator.startAnimating()
+    private func login(username: String, password: String, completion: @escaping (Result<UdacityAccount>) -> Void) {
         HTTPClient.shard.jsonRequest(
             api: UdacityAPI.postSession(username: username, password: password)
         ) { result in
             DispatchQueue.main.async {
-                self.loadingIndicator.stopAnimating()
-                switch result {
-                case .success(let json):
+                completion(result.flatMap { json in
                     guard let json = json as? [String: Any] else {
-                        self.showErrorAlert(with: "Unknow Error")
-                        return
+                        return .failure(ErrorType.unknown)
                     }
 
                     if let accountJSON = json["account"] as? [String: Any],
                         let account = UdacityAccount(json: accountJSON) {
-                        AppState.shared.loginedAccount = account
-                        // TODO: Jump to next view controller
+                        return .success(account)
                     } else if let error = json["error"] as? String {
-                        self.showErrorAlert(with: error)
+                        return .failure(ErrorType.serverSideError(msg: error))
                     } else {
-                        self.showErrorAlert(with: "Unknow Error")
+                        return .failure(ErrorType.unknown)
                     }
-
-                    print("success")
-                case .failure(let error):
-                    self.showErrorAlert(with: error.localizedDescription)
-                }
+                })
             }
         }
     }
-    
-    private func didLogin() {
-        print("Logged in")
+
+    private func didLogin(with account: UdacityAccount) {
+        store.dispatch(.clearCredentials)
+
+        AppState.shared.loginedAccount = account
+        performSegue(withIdentifier: "showOnTheMap", sender: self)
     }
 }
 
@@ -149,12 +155,29 @@ extension LoginViewController {
         case updatePassword(password: String)
         case login
         case signup
-        case didLogin(result: Result<Void>)
+        case loginSuccess(account: UdacityAccount)
+        case loginFailed(message: String)
+        case clearCredentials
     }
 
     enum Command: Commandtype {
         case signup
-        case login(completion: (Result<Void>) -> Void)
-        case didLogin(result: Result<Void>)
+        case login(completion: (Result<UdacityAccount>) -> Void)
+        case loginSuccess(account: UdacityAccount)
+        case loginFailed(message: String)
+    }
+}
+
+extension LoginViewController {
+    enum ErrorType: Error {
+        case serverSideError(msg: String)
+        case unknown
+
+        var localizedDescription: String {
+            switch self {
+            case .serverSideError(let msg): return msg
+            case .unknown: return "Unknown Error"
+            }
+        }
     }
 }

@@ -28,17 +28,39 @@ class LoginViewController: UIViewController {
             state.username = username
         case .updatePassword(let pwd):
             state.password = pwd
-        case .login: command = Command.login { result in
-            switch result {
-            case .success(let account):
-                self?.store.dispatch(.loginSuccess(account: account))
-            case .failure(let error):
-                self?.store.dispatch(.loginFailed(message: error.localizedDescription))
+        case .stopLoadingIndicator:
+            state.isLoading = false
+        case .login:
+            state.isLoading = true
+            command = Command.login { result in
+                self?.store.dispatch(.stopLoadingIndicator)
+                switch result {
+                case .success(let account):
+                    self?.store.dispatch(.updateAppStateAccount(account))
+                    self?.store.dispatch(.fetchUserData)
+                case .failure(let error):
+                    self?.store.dispatch(.showErrorAlert(message: error.localizedDescription))
+                }
             }
-        }
         case .signup: command = Command.signup
-        case .loginSuccess(let account): command = Command.loginSuccess(account: account)
-        case .loginFailed(let msg): command = Command.loginFailed(message: msg)
+        case .showErrorAlert(let msg): command = .showErrorAlert(message: msg)
+        case .updateAppStateAccount(let account): command = .updateAppStateAccount(account)
+        case .updateAppStateUserData(let userData): command = .updateAppStateUserData(userData)
+        case .goToNextView: command = .goToNextView
+        case .fetchUserData:
+            state.isLoading = true
+            command = .fetchUserData { result in
+                self?.store.dispatch(.stopLoadingIndicator)
+                switch result {
+                case .success(let userData):
+                    self?.store?.dispatch(.updateAppStateUserData(userData))
+                    self?.store?.dispatch(.updateUsername(username: ""))
+                    self?.store?.dispatch(.updatePassword(password: ""))
+                    self?.store?.dispatch(.goToNextView)
+                case .failure(let error):
+                    self?.store.dispatch(.showErrorAlert(message: error.localizedDescription))
+                }
+            }
         }
 
         return (state, command)
@@ -50,7 +72,7 @@ class LoginViewController: UIViewController {
         
         store = Store(
             reducer: reducer,
-            initialState: State(username: "", password: "")
+            initialState: State(username: "", password: "", isLoading: false)
         )
         
         store.subscribe { [weak self] state, prevState, command in
@@ -64,15 +86,18 @@ class LoginViewController: UIViewController {
         if let command = command {
             switch command {
             case let .login(handler):
-                loadingIndicator.startAnimating()
                 login(username: state.username, password: state.password, completion: handler)
-            case .loginSuccess(let account):
-                loadingIndicator.stopAnimating()
-                didLogin(with: account)
-            case .loginFailed(message: let msg):
-                loadingIndicator.stopAnimating()
+            case .showErrorAlert(let msg):
                 showErrorAlert(with: msg)
             case .signup: signup()
+            case .updateAppStateAccount(let account):
+                AppState.shared.loginedAccount = account
+            case .updateAppStateUserData(let userData):
+                AppState.shared.loginedAccount?.userData = userData
+            case .goToNextView:
+                performSegue(withIdentifier: "showOnTheMap", sender: self)
+            case .fetchUserData(let handler):
+                fetchUserData(completion: handler)
             }
         }
         
@@ -86,6 +111,13 @@ class LoginViewController: UIViewController {
             let enable = !state.username.isEmpty && !state.password.isEmpty
             loginButton.isEnabled = enable
             loginButton.backgroundColor = enable ? UIColor(red:0.13, green:0.71, blue:0.88, alpha:1.00) : .gray
+        }
+
+        if previousState == nil || previousState!.isLoading != state.isLoading {
+            [
+                true: loadingIndicator.startAnimating,
+                false: loadingIndicator.stopAnimating
+            ][state.isLoading]!()
         }
     }
 
@@ -138,14 +170,26 @@ class LoginViewController: UIViewController {
         }
     }
 
-    private func didLogin(with account: UdacityAccount) {
-        // TODO: Load User Data
-        
-        store.dispatch(.updateUsername(username: ""))
-        store.dispatch(.updatePassword(password: ""))
+    private func fetchUserData(completion: @escaping (Result<UserData>) -> Void) {
+        guard let userID = AppState.shared.loginedAccount?.key else {
+            completion(.failure(ErrorType.loginError))
+            return
+        }
+        HTTPClient.shard.jsonRequest(api: UdacityAPI.getPublicUserData(userID: userID)) { result in
+            let processedResult: Result<UserData> = result.flatMap { json in
+                guard
+                    let json = json as? [String: Any],
+                    let userJSON = json["user"] as? [String: Any],
+                    let userData = UserData(json: userJSON)
+                else {
+                    return .failure(ErrorType.unknown)
+                }
 
-        AppState.shared.loginedAccount = account
-        performSegue(withIdentifier: "showOnTheMap", sender: self)
+                return .success(userData)
+            }
+
+            DispatchQueue.main.async { completion(processedResult) }
+        }
     }
 }
 
@@ -153,6 +197,8 @@ extension LoginViewController {
     struct State: StateType {
         var username: String
         var password: String
+
+        var isLoading: Bool
     }
 
     enum Action: ActionType {
@@ -160,14 +206,21 @@ extension LoginViewController {
         case updatePassword(password: String)
         case login
         case signup
-        case loginSuccess(account: UdacityAccount)
-        case loginFailed(message: String)
+        case showErrorAlert(message: String)
+        case stopLoadingIndicator
+        case updateAppStateAccount(UdacityAccount)
+        case updateAppStateUserData(UserData)
+        case goToNextView
+        case fetchUserData
     }
 
     enum Command: CommandType {
         case signup
         case login(completion: (Result<UdacityAccount>) -> Void)
-        case loginSuccess(account: UdacityAccount)
-        case loginFailed(message: String)
+        case showErrorAlert(message: String)
+        case updateAppStateAccount(UdacityAccount)
+        case updateAppStateUserData(UserData)
+        case goToNextView
+        case fetchUserData(completion: (Result<UserData>) -> Void)
     }
 }

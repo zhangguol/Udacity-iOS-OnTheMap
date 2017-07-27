@@ -8,13 +8,15 @@
 
 import Foundation
 
-enum ErrorType: Error {
+enum ErrorType: LocalizedError {
     case serverSideError(msg: String)
     case notLogin
+    case loginError
     case unknown
 
-    var localizedDescription: String {
+    var errorDescription: String? {
         switch self {
+        case .loginError: return "Cannot login"
         case .serverSideError(let msg): return msg
         case .notLogin: return "Not login"
         case .unknown: return "Unknown Error"

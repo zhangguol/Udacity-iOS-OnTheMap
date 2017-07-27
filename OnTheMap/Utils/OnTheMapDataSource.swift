@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 class OnTheMapDataSource: NSObject {
 
@@ -14,5 +15,9 @@ class OnTheMapDataSource: NSObject {
         self.studentLocations = studentLocations
     }
     
-     let studentLocations: [StudentLocation]
+    let studentLocations: [StudentLocation]
+
+    lazy var studentLocationAnnotations: [StudentLocationAnnotation] = {
+        return self.studentLocations.map { $0.generateAnnotation() }
+    }()
 }

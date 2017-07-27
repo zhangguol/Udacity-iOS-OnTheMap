@@ -15,7 +15,7 @@ enum ParseAPI: APIProtocol {
     case createStudentLocation(location: StudentLocation)
     case updateStudentLocation(id: String, location: StudentLocation)
 
-    static let baseURL: String = "https://parse.udacity.com/parse/classes/"
+    static let baseURL: String = "https://parse.udacity.com/parse/classes"
 
     var path: String {
         switch self {
@@ -48,7 +48,7 @@ enum ParseAPI: APIProtocol {
 
             return dict
         case .getStudentLocation(let uniqueKey):
-            return ["where": "{\"unique\":\"\(uniqueKey)\"}"]
+            return ["where": "{\"uniqueKey\":\"\(uniqueKey)\"}"]
         case.createStudentLocation(let location):
             return location.toJSON()
         case let .updateStudentLocation(_, location):

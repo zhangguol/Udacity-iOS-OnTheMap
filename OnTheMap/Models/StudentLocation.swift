@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 struct StudentLocation {
     let objectID: String?
@@ -71,4 +72,27 @@ extension StudentLocation: Equatable {
         default: return false
         }
     }
+}
+
+extension StudentLocation {
+    func generateAnnotation() -> StudentLocationAnnotation {
+        return StudentLocationAnnotation(
+            latitude: latitude,
+            longitude: longitude,
+            title: "\(firstName) \(lastName)",
+            subtitle: mediaURL)
+    }
+}
+
+class StudentLocationAnnotation: NSObject, MKAnnotation {
+
+    init(latitude: Double, longitude: Double, title: String, subtitle: String) {
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        self.title = title
+        self.subtitle = subtitle
+    }
+    
+    let coordinate: CLLocationCoordinate2D
+    let title: String?
+    let subtitle: String?
 }

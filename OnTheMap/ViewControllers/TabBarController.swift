@@ -10,6 +10,10 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    var mapController: MapViewController? {
+        return viewControllers?[0] as? MapViewController
+    }
+
     var store: Store<Action, State, Command>!
 
     lazy var reducer: (State, Action) -> (state: State, command: Command?) = {
@@ -57,6 +61,8 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        _ = mapController?.view
+
         store = Store(reducer: reducer, initialState: State())
         store.subscribe { [weak self] state, prevState, command in
             self?.stateDidChanged(state: state, previousState: prevState, command: command)
@@ -65,6 +71,7 @@ class TabBarController: UITabBarController {
         stateDidChanged(state: store.state, previousState: nil, command: nil)
 
         store.dispatch(.loadLocations)
+
     }
 
     private func stateDidChanged(state: State, previousState: State?, command: Command?) {
@@ -87,9 +94,10 @@ class TabBarController: UITabBarController {
         }
 
         if previousState == nil
-            || previousState!.dataSource.studentLocations == state.dataSource.studentLocations {
+            || previousState!.dataSource.studentLocations != state.dataSource.studentLocations {
 
             // update child controllers
+            mapController?.store.dispatch(.updateDataSource(state.dataSource))
         }
     }
 

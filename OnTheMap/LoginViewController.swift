@@ -24,8 +24,10 @@ class LoginViewController: UIViewController {
         var command: Command? = nil
 
         switch action {
-        case .updateUsername(let username): state.username = username
-        case .updatePassword(let pwd): state.password = pwd
+        case .updateUsername(let username):
+            state.username = username
+        case .updatePassword(let pwd):
+            state.password = pwd
         case .login: command = Command.login { result in
             switch result {
             case .success(let account):
@@ -35,9 +37,6 @@ class LoginViewController: UIViewController {
             }
         }
         case .signup: command = Command.signup
-        case .clearCredentials:
-            self?.store.dispatch(.updateUsername(username: ""))
-            self?.store.dispatch(.updatePassword(password: ""))
         case .loginSuccess(let account): command = Command.loginSuccess(account: account)
         case .loginFailed(let msg): command = Command.loginFailed(message: msg)
         }
@@ -80,7 +79,10 @@ class LoginViewController: UIViewController {
         if previousState == nil
             || previousState!.username != state.username
             || previousState!.password != state.password {
-          
+
+            emailTextField.text = state.username
+            passwordTextField.text = state.password
+            
             let enable = !state.username.isEmpty && !state.password.isEmpty
             loginButton.isEnabled = enable
             loginButton.backgroundColor = enable ? UIColor(red:0.13, green:0.71, blue:0.88, alpha:1.00) : .gray
@@ -139,7 +141,8 @@ class LoginViewController: UIViewController {
     private func didLogin(with account: UdacityAccount) {
         // TODO: Load User Data
         
-        store.dispatch(.clearCredentials)
+        store.dispatch(.updateUsername(username: ""))
+        store.dispatch(.updatePassword(password: ""))
 
         AppState.shared.loginedAccount = account
         performSegue(withIdentifier: "showOnTheMap", sender: self)
@@ -159,7 +162,6 @@ extension LoginViewController {
         case signup
         case loginSuccess(account: UdacityAccount)
         case loginFailed(message: String)
-        case clearCredentials
     }
 
     enum Command: CommandType {

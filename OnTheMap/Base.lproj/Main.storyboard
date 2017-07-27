@@ -182,12 +182,24 @@
         <!--On The Map-->
         <scene sceneID="n2g-W0-adY">
             <objects>
-                <tabBarController id="Lf7-iC-vLC" sceneMemberID="viewController">
+                <tabBarController id="Lf7-iC-vLC" customClass="TabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="On The Map" id="rJo-ft-7wK">
-                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="ouR-Fg-1SF"/>
+                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="ouR-Fg-1SF">
+                            <connections>
+                                <action selector="logoutButtonTapped:" destination="Lf7-iC-vLC" id="ZzB-L3-6ka"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="1oW-JE-3Wc"/>
-                            <barButtonItem systemItem="refresh" id="api-aK-qHe"/>
+                            <barButtonItem systemItem="add" id="1oW-JE-3Wc">
+                                <connections>
+                                    <action selector="addButtonTapped:" destination="Lf7-iC-vLC" id="lfJ-xx-GmQ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="api-aK-qHe">
+                                <connections>
+                                    <action selector="refreshButtonTapped:" destination="Lf7-iC-vLC" id="pbU-0W-sss"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="vBk-Lk-hql">

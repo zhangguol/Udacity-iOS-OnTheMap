@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Store<A: ActionType, S: StateType, C: Commandtype> {
+class Store<A: ActionType, S: StateType, C: CommandType> {
     let reducer: (_ state: S, _ action: A) -> (S, C?)
     private var subscriber: ((_ state: S, _ previousState: S, _ command: C?) -> Void)?
     var state: S

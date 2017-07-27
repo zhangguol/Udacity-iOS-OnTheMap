@@ -10,4 +10,4 @@ import Foundation
 
 protocol ActionType {}
 protocol StateType {}
-protocol Commandtype {}
+protocol CommandType {}

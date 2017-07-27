@@ -10,6 +10,8 @@ import Foundation
 
 struct UdacityAccount {
     let key: String
+
+    var userData: UserData?
 }
 
 extension UdacityAccount {

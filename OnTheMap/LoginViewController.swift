@@ -137,6 +137,8 @@ class LoginViewController: UIViewController {
     }
 
     private func didLogin(with account: UdacityAccount) {
+        // TODO: Load User Data
+        
         store.dispatch(.clearCredentials)
 
         AppState.shared.loginedAccount = account
@@ -160,24 +162,10 @@ extension LoginViewController {
         case clearCredentials
     }
 
-    enum Command: Commandtype {
+    enum Command: CommandType {
         case signup
         case login(completion: (Result<UdacityAccount>) -> Void)
         case loginSuccess(account: UdacityAccount)
         case loginFailed(message: String)
-    }
-}
-
-extension LoginViewController {
-    enum ErrorType: Error {
-        case serverSideError(msg: String)
-        case unknown
-
-        var localizedDescription: String {
-            switch self {
-            case .serverSideError(let msg): return msg
-            case .unknown: return "Unknown Error"
-            }
-        }
     }
 }

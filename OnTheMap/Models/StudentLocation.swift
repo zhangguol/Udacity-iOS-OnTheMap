@@ -63,3 +63,12 @@ extension StudentLocation {
         return json
     }
 }
+
+extension StudentLocation: Equatable {
+    static func == (lhs: StudentLocation, rhs: StudentLocation) -> Bool {
+        switch (lhs.objectID, rhs.objectID) {
+        case let (.some(l), .some(r)): return l == r
+        default: return false
+        }
+    }
+}

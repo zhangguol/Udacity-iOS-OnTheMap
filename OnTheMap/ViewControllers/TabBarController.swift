@@ -24,9 +24,12 @@ class TabBarController: UITabBarController {
 
         switch action {
         case .updateLocations(let locations):
-            state = State(dataSource: OnTheMapDataSource(studentLocations: locations))
+            state.dataSource = OnTheMapDataSource(studentLocations: locations)
+        case .updateLoadingState(let isLoading):
+            state.isLoading = isLoading
         case .loadLocations:
             command = .loadLocations { result in
+                self?.store.dispatch(.updateLoadingState(isLoading: false))
                 switch result {
                 case .success(let locations):
                     self?.store.dispatch(.updateLocations(locations))
@@ -78,6 +81,7 @@ class TabBarController: UITabBarController {
         if let command = command {
             switch command {
             case .loadLocations(let handler):
+                store.dispatch(.updateLoadingState(isLoading: true))
                 fetchStudentLocations(completion: handler)
             case .checkPosted(let handler):
                 checkCurrentUserLocationPosted(completion: handler)
@@ -98,6 +102,11 @@ class TabBarController: UITabBarController {
 
             // update child controllers
             mapController?.store.dispatch(.updateDataSource(state.dataSource))
+        }
+
+        if previousState == nil
+            || previousState!.isLoading != state.isLoading {
+            mapController?.store.dispatch(.updateLoadingState(isLoading: state.isLoading))
         }
     }
 
@@ -179,10 +188,13 @@ private extension TabBarController {
 extension TabBarController {
     struct State: StateType {
         var dataSource = OnTheMapDataSource(studentLocations: [])
+
+        var isLoading = false
     }
 
     enum Action: ActionType {
         case updateLocations([StudentLocation])
+        case updateLoadingState(isLoading: Bool)
         case loadLocations
         case logout
         case checkPosted

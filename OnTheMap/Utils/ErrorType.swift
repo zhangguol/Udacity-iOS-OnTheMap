@@ -16,9 +16,9 @@ enum ErrorType: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .loginError: return "Cannot login"
         case .serverSideError(let msg): return msg
         case .notLogin: return "Not login"
+        case .loginError: return "Cannot login"
         case .unknown: return "Unknown Error"
         }
     }

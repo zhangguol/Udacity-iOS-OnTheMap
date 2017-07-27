@@ -12,6 +12,8 @@ import MapKit
 class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var loadingCoverView: UIView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
 
     var store: Store<Action, State, Command>!
 
@@ -23,7 +25,9 @@ class MapViewController: UIViewController {
 
         switch action {
         case .updateDataSource(let dataSource):
-            state = State(dataSource: dataSource)
+            state.dataSource = dataSource
+        case .updateLoadingState(let isLoading):
+            state.isLoading = isLoading
         }
 
         return (state, command)
@@ -33,10 +37,15 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        store = Store(reducer: reducer, initialState: State(dataSource: OnTheMapDataSource(studentLocations: [])))
+        store = Store(
+            reducer: reducer,
+            initialState: State(dataSource: OnTheMapDataSource(studentLocations: []), isLoading: false)
+        )
         store!.subscribe { [weak self] state, prevState, command in
             self?.stateDidChanged(state: state, previousState: prevState, command: command)
         }
+
+        stateDidChanged(state: store.state, previousState: nil, command: nil)
     }
 
     private func stateDidChanged(state: State, previousState: State?, command: Command?) {
@@ -46,17 +55,27 @@ class MapViewController: UIViewController {
             mapView.removeAnnotations(mapView.annotations)
             mapView.addAnnotations(state.dataSource.studentLocationAnnotations)
         }
+
+        if previousState == nil
+            || previousState!.isLoading != state.isLoading {
+
+            loadingCoverView.isHidden = !state.isLoading
+            (state.isLoading ? loadingIndicator.startAnimating : loadingIndicator.stopAnimating)()
+        }
     }
 }
 
 extension MapViewController {
 
     struct State: StateType {
-        let dataSource: OnTheMapDataSource
+        var dataSource: OnTheMapDataSource
+        
+        var isLoading: Bool
     }
 
     enum Action: ActionType {
         case updateDataSource(OnTheMapDataSource)
+        case updateLoadingState(isLoading: Bool)
     }
 
     enum Command: CommandType {}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, StoreSubscriber {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -75,7 +75,7 @@ class LoginViewController: UIViewController {
             initialState: State(username: "", password: "", isLoading: false)
         )
         
-        store.subscribe { [weak self] state, prevState, command in
+        store.subscribe(self) { [weak self] state, prevState, command in
             self?.stateDidChanged(state: state, previousState: prevState, command: command)
         }
         

@@ -8,40 +8,32 @@
 
 import UIKit
 
-class TableController: UIViewController {
+class TableController: UIViewController, StoreSubscriber {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
 
-    var store: Store<Action, State, Command>!
-
-    lazy var reducer: (State, Action) -> (state: State, command: Command?) = {
-        [weak self] (state: State, action: Action) in
-
-        var state = state
-        var command: Command? = nil
-
-        switch action {
-        case .updateDataSource(let dataSource):
-            state.dataSource = dataSource
-        case .updateLoadingState(let isLoading):
-            state.isLoading = isLoading
-        }
-        
-        return (state, command)
+    var parentController: TabBarController? {
+        return tabBarController as? TabBarController
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
-        // Do any additional setup after loading the view.
-        store = Store(reducer: reducer, initialState: State())
-        store.subscribe { [weak self] state, prevState, command in
-            self?.stateDidChanged(state: state, previousState: prevState, command: command)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let parentVC = parentController {
+            parentVC.store.subscribe(self) { [weak self] state, prevState, command in
+                self?.stateDidChanged(state: state, previousState: prevState, command: command)
+            }
+
+            stateDidChanged(state: parentVC.store.state, previousState: nil, command: nil)
         }
     }
 
-    private func stateDidChanged(state: State, previousState: State?, command: Command?) {
+    private func stateDidChanged(state: TabBarController.State, previousState: TabBarController.State?, command: TabBarController.Command?) {
         if previousState == nil
             || previousState!.dataSource.studentLocations != state.dataSource.studentLocations {
 
@@ -56,18 +48,4 @@ class TableController: UIViewController {
         }
     }
     
-}
-
-extension TableController {
-    struct State: StateType {
-        var dataSource = OnTheMapDataSource(studentLocations: [])
-        var isLoading = false
-    }
-
-    enum Action: ActionType {
-        case updateDataSource(OnTheMapDataSource)
-        case updateLoadingState(isLoading: Bool)
-    }
-
-    enum Command: CommandType {}
 }

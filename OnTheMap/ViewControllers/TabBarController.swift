@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
+class TabBarController: UITabBarController, StoreSubscriber {
 
     var mapController: MapViewController? {
         return viewControllers?[0] as? MapViewController
@@ -68,11 +68,9 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        _ = mapController?.view
-        _ = tableController?.view
 
         store = Store(reducer: reducer, initialState: State())
-        store.subscribe { [weak self] state, prevState, command in
+        store.subscribe(self) { [weak self] state, prevState, command in
             self?.stateDidChanged(state: state, previousState: prevState, command: command)
         }
 
@@ -100,20 +98,6 @@ class TabBarController: UITabBarController {
                 AppState.shared.loginedAccount = nil
                 dismiss(animated: true, completion: nil)
             }
-        }
-
-        if previousState == nil
-            || previousState!.dataSource.studentLocations != state.dataSource.studentLocations {
-
-            // update child controllers
-            mapController?.store.dispatch(.updateDataSource(state.dataSource))
-            tableController?.store.dispatch(.updateDataSource(state.dataSource))
-        }
-
-        if previousState == nil
-            || previousState!.isLoading != state.isLoading {
-            mapController?.store.dispatch(.updateLoadingState(isLoading: state.isLoading))
-            tableController?.store.dispatch(.updateLoadingState(isLoading: state.isLoading))
         }
     }
 

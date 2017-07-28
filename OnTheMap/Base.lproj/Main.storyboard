@@ -120,22 +120,43 @@
             </objects>
             <point key="canvasLocation" x="-767" y="54"/>
         </scene>
-        <!--View Controller-->
+        <!--Table Controller-->
         <scene sceneID="zej-ql-cEX">
             <objects>
-                <viewController id="nwr-3A-KIn" sceneMemberID="viewController">
+                <viewController id="nwr-3A-KIn" customClass="TableController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IuU-Di-ZT4"/>
                         <viewControllerLayoutGuide type="bottom" id="nla-JD-ffc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jYm-WP-omz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Di-0T-thQ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gxX-xl-H28">
+                                <rect key="frame" x="178" y="292" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Di-0T-thQ" firstAttribute="top" secondItem="IuU-Di-ZT4" secondAttribute="bottom" id="2Qq-9X-tW4"/>
+                            <constraint firstItem="3Di-0T-thQ" firstAttribute="leading" secondItem="jYm-WP-omz" secondAttribute="leading" id="2cz-fl-owW"/>
+                            <constraint firstItem="gxX-xl-H28" firstAttribute="centerY" secondItem="jYm-WP-omz" secondAttribute="centerY" id="ZDq-Lh-w8Z"/>
+                            <constraint firstItem="gxX-xl-H28" firstAttribute="centerX" secondItem="jYm-WP-omz" secondAttribute="centerX" id="duc-hm-9bs"/>
+                            <constraint firstItem="nla-JD-ffc" firstAttribute="top" secondItem="3Di-0T-thQ" secondAttribute="bottom" id="ggL-yH-MfH"/>
+                            <constraint firstAttribute="trailing" secondItem="3Di-0T-thQ" secondAttribute="trailing" id="u7J-vY-t4I"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="icon_listview-deselected" selectedImage="icon_listview-selected" id="lNw-22-VYp">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="loadingIndicator" destination="gxX-xl-H28" id="nNU-gC-Yrs"/>
+                        <outlet property="tableView" destination="3Di-0T-thQ" id="8p5-3x-CTs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v6e-pg-uCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -150,14 +171,14 @@
                         <viewControllerLayoutGuide type="bottom" id="8C5-lC-xND"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jRe-T3-oaR">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9HN-rK-YGq">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9HN-rK-YGq">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLz-up-xkb">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                 <subviews>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="dOS-Yw-iDJ">
                                         <rect key="frame" x="169" y="259" width="37" height="37"/>
@@ -200,7 +221,7 @@
         <scene sceneID="ib8-Et-I1J">
             <objects>
                 <navigationController id="UFX-XE-V50" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="88V-eb-Qin">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="88V-eb-Qin">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

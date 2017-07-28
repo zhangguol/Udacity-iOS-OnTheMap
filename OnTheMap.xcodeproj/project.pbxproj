@@ -22,6 +22,7 @@
 		B224092D1F05D04400D24CC8 /* ParseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224092C1F05D04400D24CC8 /* ParseAPI.swift */; };
 		B22F6D7A1F1D946700456808 /* StateViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F6D791F1D946700456808 /* StateViewControllerProtocols.swift */; };
 		B22F6D7C1F1D965500456808 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F6D7B1F1D965500456808 /* Store.swift */; };
+		B26248FD1F2AB13B00D8295E /* TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26248FC1F2AB13B00D8295E /* TableController.swift */; };
 		B2AA97631F0EF7A600352E82 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AA97621F0EF7A600352E82 /* UserData.swift */; };
 		B2DB387B1F295D8F005E0408 /* OnTheMapDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DB387A1F295D8F005E0408 /* OnTheMapDataSource.swift */; };
 		B2DB387D1F295E13005E0408 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DB387C1F295E13005E0408 /* TabBarController.swift */; };
@@ -61,6 +62,7 @@
 		B224092C1F05D04400D24CC8 /* ParseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseAPI.swift; sourceTree = "<group>"; };
 		B22F6D791F1D946700456808 /* StateViewControllerProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateViewControllerProtocols.swift; sourceTree = "<group>"; };
 		B22F6D7B1F1D965500456808 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		B26248FC1F2AB13B00D8295E /* TableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableController.swift; sourceTree = "<group>"; };
 		B2AA97621F0EF7A600352E82 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		B2DB387A1F295D8F005E0408 /* OnTheMapDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnTheMapDataSource.swift; sourceTree = "<group>"; };
 		B2DB387C1F295E13005E0408 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				B22409031F05C3B900D24CC8 /* LoginViewController.swift */,
 				B2DB387C1F295E13005E0408 /* TabBarController.swift */,
 				B2DB38801F2A65A2005E0408 /* MapViewController.swift */,
+				B26248FC1F2AB13B00D8295E /* TableController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2E5E0961F0DBE990093863F /* UdacityAPI.swift in Sources */,
+				B26248FD1F2AB13B00D8295E /* TableController.swift in Sources */,
 				B2DB387D1F295E13005E0408 /* TabBarController.swift in Sources */,
 				B22409291F05C4F000D24CC8 /* APIProtocol.swift in Sources */,
 				B224092B1F05C73C00D24CC8 /* Result.swift in Sources */,

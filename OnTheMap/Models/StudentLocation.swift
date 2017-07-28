@@ -20,6 +20,8 @@ struct StudentLocation {
 
     let latitude: Double
     let longitude: Double
+
+    var fullName: String { return "\(firstName) \(lastName)"}
 }
 
 extension StudentLocation {
@@ -79,7 +81,7 @@ extension StudentLocation {
         return StudentLocationAnnotation(
             latitude: latitude,
             longitude: longitude,
-            title: "\(firstName) \(lastName)",
+            title: fullName,
             subtitle: mediaURL)
     }
 }

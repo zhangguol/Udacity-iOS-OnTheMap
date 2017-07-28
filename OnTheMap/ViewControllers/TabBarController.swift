@@ -14,6 +14,10 @@ class TabBarController: UITabBarController {
         return viewControllers?[0] as? MapViewController
     }
 
+    var tableController: TableController? {
+        return viewControllers?[1] as? TableController
+    }
+
     var store: Store<Action, State, Command>!
 
     lazy var reducer: (State, Action) -> (state: State, command: Command?) = {
@@ -65,6 +69,7 @@ class TabBarController: UITabBarController {
 
         // Do any additional setup after loading the view.
         _ = mapController?.view
+        _ = tableController?.view
 
         store = Store(reducer: reducer, initialState: State())
         store.subscribe { [weak self] state, prevState, command in
@@ -102,11 +107,13 @@ class TabBarController: UITabBarController {
 
             // update child controllers
             mapController?.store.dispatch(.updateDataSource(state.dataSource))
+            tableController?.store.dispatch(.updateDataSource(state.dataSource))
         }
 
         if previousState == nil
             || previousState!.isLoading != state.isLoading {
             mapController?.store.dispatch(.updateLoadingState(isLoading: state.isLoading))
+            tableController?.store.dispatch(.updateLoadingState(isLoading: state.isLoading))
         }
     }
 

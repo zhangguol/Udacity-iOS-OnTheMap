@@ -57,10 +57,16 @@ enum ParseAPI: APIProtocol {
     }
 
     func requestDecorator(request: inout URLRequest) {
-        let headers = [
+        var headers = [
             "X-Parse-Application-Id": Constant.appID,
             "X-Parse-REST-API-Key": Constant.apiKey
         ]
+
+        switch self.method {
+        case .post, .put:
+            headers["Content-Type"] = "application/json"
+        default: break
+        }
 
         headers.forEach {
             request.addValue($1, forHTTPHeaderField: $0)

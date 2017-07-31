@@ -43,7 +43,7 @@ class MapViewController: UIViewController, StoreSubscriber {
 
     private func stateDidChanged(state: TabBarController.State, previousState: TabBarController.State?, command: TabBarController.Command?) {
         if previousState == nil
-            || previousState!.dataSource.studentLocations != state.dataSource.studentLocations {
+            || previousState!.dataSource != state.dataSource {
 
             mapView.removeAnnotations(mapView.annotations)
             mapView.addAnnotations(state.dataSource.studentLocationAnnotations)

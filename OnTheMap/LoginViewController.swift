@@ -118,6 +118,8 @@ class LoginViewController: UIViewController, StoreSubscriber {
                 true: loadingIndicator.startAnimating,
                 false: loadingIndicator.stopAnimating
             ][state.isLoading]!()
+
+            loginButton.isEnabled = !store.state.isLoading
         }
     }
 

@@ -45,18 +45,26 @@ class TabBarController: UITabBarController, StoreSubscriber {
         case .checkPosted:
             command = .checkPosted { result in
                 switch result {
-                case .success(let posted):
-                    if posted {
-                        self?.store.dispatch(.showOverwriteAlert)
+                case .success(let exsitingLocation):
+                    if let exsitingLocation = exsitingLocation {
+                        self?.store.dispatch(.showOverwriteAlert(locationToBeOverwritten: exsitingLocation))
                     } else {
-                        self?.store.dispatch(.addLocation)
+                        do {
+                            guard let strongSelf = self else { break }
+                            let newLocation = try strongSelf.generateNewStudentLocation()
+
+                            self?.store.dispatch(.addLocation(newLocation))
+                        } catch let error {
+                            self?.store.dispatch(.showErrorAlert(message: error.localizedDescription))
+                        }
                     }
                 case .failure(let error):
                     self?.store.dispatch(.showErrorAlert(message: error.localizedDescription))
                 }
             }
-        case .addLocation: command = .presentAddLocationController
-        case .showOverwriteAlert: command = .showOverwriteAlert
+        case .addLocation(let location):
+            command = .presentAddLocationController(forLocation: location)
+        case .showOverwriteAlert(let location): command = .showOverwriteAlert(locationToBeOverwritten: location)
         case .showErrorAlert(let msg): command = .showErrorAlert(message: msg)
         }
 
@@ -76,8 +84,13 @@ class TabBarController: UITabBarController, StoreSubscriber {
 
         stateDidChanged(state: store.state, previousState: nil, command: nil)
 
-        store.dispatch(.loadLocations)
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        store.dispatch(.loadLocations)
     }
 
     private func stateDidChanged(state: State, previousState: State?, command: Command?) {
@@ -88,10 +101,11 @@ class TabBarController: UITabBarController, StoreSubscriber {
                 fetchStudentLocations(completion: handler)
             case .checkPosted(let handler):
                 checkCurrentUserLocationPosted(completion: handler)
-            case .presentAddLocationController:
-                fatalError()
-            case .showOverwriteAlert:
-                showOverwriteAlert()
+            case .presentAddLocationController(let location):
+                let vc = AddLocationController.initFromStoryboard(studentLoaction: location)
+                navigationController?.pushViewController(vc, animated: true)
+            case .showOverwriteAlert(let locationToBeOverwritten):
+                showOverwriteAlert(locationToBeOverwritten: locationToBeOverwritten)
             case .showErrorAlert(let msg):
                 showErrorAlert(with: msg)
             case .logout:
@@ -134,14 +148,14 @@ private extension TabBarController {
         }
     }
 
-    func checkCurrentUserLocationPosted(completion: @escaping(Result<Bool>) -> Void) {
+    func checkCurrentUserLocationPosted(completion: @escaping(Result<StudentLocation?>) -> Void) {
         guard let uniqueKey = AppState.shared.loginedAccount?.key else {
             completion(.failure(ErrorType.notLogin))
             return
         }
 
         HTTPClient.shard.jsonRequest(api: ParseAPI.getStudentLocation(uniqueKey: uniqueKey)) { result in
-            let processedResult: Result<Bool> = result.flatMap { json in
+            let processedResult: Result<StudentLocation?> = result.flatMap { json in
                 guard
                     let json = json as? [String: Any],
                     let results = json["results"] as? [[String: Any]]
@@ -149,14 +163,14 @@ private extension TabBarController {
                     return .failure(ErrorType.unknown)
                 }
 
-                return .success(!results.isEmpty)
+                return .success(results.first.flatMap(StudentLocation.init(json:)))
             }
 
             DispatchQueue.main.async { completion(processedResult) }
         }
     }
 
-    func showOverwriteAlert() {
+    func showOverwriteAlert(locationToBeOverwritten: StudentLocation) {
         guard let userData = AppState.shared.loginedAccount?.userData else {
             store.dispatch(.showErrorAlert(message: ErrorType.notLogin.localizedDescription))
             return
@@ -166,13 +180,31 @@ private extension TabBarController {
         let msg = "User \"\(name)\" Has Already Posted a Student Location. Would You Like to Overwrite Their Locations?"
         let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
         let overwrite = UIAlertAction(title: "Overwrite", style: .default) { [weak self] _ in
-            self?.store.dispatch(.addLocation)
+            self?.store.dispatch(.addLocation(locationToBeOverwritten))
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         [overwrite, cancel].forEach(alert.addAction(_:))
 
         present(alert, animated: true, completion: nil)
+    }
+
+    func generateNewStudentLocation() throws -> StudentLocation {
+        guard let account = AppState.shared.loginedAccount,
+            let userData = account.userData else {
+            throw ErrorType.notLogin
+        }
+
+        return StudentLocation(
+            objectID: nil,
+            uniqueKey: account.key,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            mapString: "",
+            mediaURL: "",
+            latitude: 0.0,
+            longitude: 0.0
+        )
     }
 }
 
@@ -189,16 +221,16 @@ extension TabBarController {
         case loadLocations
         case logout
         case checkPosted
-        case addLocation
-        case showOverwriteAlert
+        case addLocation(StudentLocation)
+        case showOverwriteAlert(locationToBeOverwritten: StudentLocation)
         case showErrorAlert(message: String)
     }
 
     enum Command: CommandType {
         case loadLocations(completion: (Result<[StudentLocation]>) -> Void)
-        case checkPosted(completion: (Result<Bool>) -> Void)
-        case presentAddLocationController
-        case showOverwriteAlert
+        case checkPosted(completion: (Result<StudentLocation?>) -> Void)
+        case presentAddLocationController(forLocation: StudentLocation)
+        case showOverwriteAlert(locationToBeOverwritten: StudentLocation)
         case showErrorAlert(message: String)
         case logout
     }

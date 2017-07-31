@@ -15,11 +15,11 @@ struct StudentLocation {
 
     let firstName: String
     let lastName: String
-    let mapString: String
-    let mediaURL: String
+    var mapString: String
+    var mediaURL: String
 
-    let latitude: Double
-    let longitude: Double
+    var latitude: Double
+    var longitude: Double
 
     var fullName: String { return "\(firstName) \(lastName)"}
 }
@@ -82,13 +82,14 @@ extension StudentLocation {
             latitude: latitude,
             longitude: longitude,
             title: fullName,
-            subtitle: mediaURL)
+            subtitle: mediaURL
+        )
     }
 }
 
 class StudentLocationAnnotation: NSObject, MKAnnotation {
 
-    init(latitude: Double, longitude: Double, title: String, subtitle: String) {
+    init(latitude: Double, longitude: Double, title: String, subtitle: String?) {
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         self.title = title
         self.subtitle = subtitle

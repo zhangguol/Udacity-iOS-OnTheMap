@@ -35,7 +35,7 @@ class TableController: UIViewController, StoreSubscriber {
 
     private func stateDidChanged(state: TabBarController.State, previousState: TabBarController.State?, command: TabBarController.Command?) {
         if previousState == nil
-            || previousState!.dataSource.studentLocations != state.dataSource.studentLocations {
+            || previousState!.dataSource != state.dataSource {
 
             tableView.dataSource = state.dataSource
             tableView.reloadData()

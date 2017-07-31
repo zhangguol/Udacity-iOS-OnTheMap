@@ -12,6 +12,8 @@ enum ErrorType: LocalizedError {
     case serverSideError(msg: String)
     case notLogin
     case loginError
+    case invalideWebsiteURL
+    case locationNotFound
     case unknown
 
     var errorDescription: String? {
@@ -19,6 +21,10 @@ enum ErrorType: LocalizedError {
         case .serverSideError(let msg): return msg
         case .notLogin: return "Not login"
         case .loginError: return "Cannot login"
+        case .invalideWebsiteURL:
+            return "Invalid Link. Include HTTP(S)://"
+        case .locationNotFound:
+            return "Location Not Found"
         case .unknown: return "Unknown Error"
         }
     }

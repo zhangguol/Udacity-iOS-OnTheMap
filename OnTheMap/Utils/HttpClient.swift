@@ -72,7 +72,7 @@ private extension HTTPClient {
         request.httpMethod = api.method.rawValue
         api.requestDecorator(request: &request)
 
-        if [.post, .delete].contains(api.method) {
+        if [.post, .delete, .put].contains(api.method) {
             request.httpBody = getPostHTTPBody(from: api.parameters)
         }
 

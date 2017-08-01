@@ -19,6 +19,7 @@ class TableController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,5 +48,18 @@ class TableController: UIViewController, StoreSubscriber {
             (state.isLoading ? loadingIndicator.startAnimating : loadingIndicator.stopAnimating)()
         }
     }
-    
+}
+
+extension TableController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        guard let location = parentController?.store.state.dataSource.studentLocations[indexPath.row] else { return }
+
+        guard let url = URL(string: location.mediaURL) else {
+            showErrorAlert(with: ErrorType.invalidURL.localizedDescription)
+            return
+        }
+
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }

@@ -14,6 +14,7 @@ enum ErrorType: LocalizedError {
     case loginError
     case invalideWebsiteURL
     case locationNotFound
+    case invalidURL
     case unknown
 
     var errorDescription: String? {
@@ -25,6 +26,8 @@ enum ErrorType: LocalizedError {
             return "Invalid Link. Include HTTP(S)://"
         case .locationNotFound:
             return "Location Not Found"
+        case .invalidURL:
+            return "Invalid URL"
         case .unknown: return "Unknown Error"
         }
     }

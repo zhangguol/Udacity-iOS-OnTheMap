@@ -86,7 +86,7 @@ class LoginViewController: UIViewController, StoreSubscriber {
         if let command = command {
             switch command {
             case let .login(handler):
-                login(username: state.username, password: state.password, completion: handler)
+                UdacityClient.login(username: state.username, password: state.password, completion: handler)
             case .showErrorAlert(let msg):
                 showErrorAlert(with: msg)
             case .signup: signup()
@@ -97,7 +97,7 @@ class LoginViewController: UIViewController, StoreSubscriber {
             case .goToNextView:
                 performSegue(withIdentifier: "showOnTheMap", sender: self)
             case .fetchUserData(let handler):
-                fetchUserData(completion: handler)
+                UdacityClient.fetchUserData(completion: handler)
             }
         }
         
@@ -147,51 +147,6 @@ class LoginViewController: UIViewController, StoreSubscriber {
     private func signup() {
         let url = URL(string: "https://www.udacity.com/account/auth#!/signup")
         url.map { UIApplication.shared.open($0, options: [:], completionHandler: nil) }
-    }
-    
-    private func login(username: String, password: String, completion: @escaping (Result<UdacityAccount>) -> Void) {
-        HTTPClient.shard.jsonRequest(
-            api: UdacityAPI.postSession(username: username, password: password)
-        ) { result in
-            DispatchQueue.main.async {
-                completion(result.flatMap { json in
-                    guard let json = json as? [String: Any] else {
-                        return .failure(ErrorType.unknown)
-                    }
-
-                    if let accountJSON = json["account"] as? [String: Any],
-                        let account = UdacityAccount(json: accountJSON) {
-                        return .success(account)
-                    } else if let error = json["error"] as? String {
-                        return .failure(ErrorType.serverSideError(msg: error))
-                    } else {
-                        return .failure(ErrorType.unknown)
-                    }
-                })
-            }
-        }
-    }
-
-    private func fetchUserData(completion: @escaping (Result<UserData>) -> Void) {
-        guard let userID = AppState.shared.loginedAccount?.key else {
-            completion(.failure(ErrorType.loginError))
-            return
-        }
-        HTTPClient.shard.jsonRequest(api: UdacityAPI.getPublicUserData(userID: userID)) { result in
-            let processedResult: Result<UserData> = result.flatMap { json in
-                guard
-                    let json = json as? [String: Any],
-                    let userJSON = json["user"] as? [String: Any],
-                    let userData = UserData(json: userJSON)
-                else {
-                    return .failure(ErrorType.unknown)
-                }
-
-                return .success(userData)
-            }
-
-            DispatchQueue.main.async { completion(processedResult) }
-        }
     }
 }
 

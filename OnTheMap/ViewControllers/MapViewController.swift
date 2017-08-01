@@ -21,6 +21,7 @@ class MapViewController: UIViewController, StoreSubscriber {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,5 +56,18 @@ class MapViewController: UIViewController, StoreSubscriber {
             loadingCoverView.isHidden = !state.isLoading
             (state.isLoading ? loadingIndicator.startAnimating : loadingIndicator.stopAnimating)()
         }
+    }
+}
+
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation as? StudentLocationAnnotation else { return }
+        guard let urlStr = annotation.subtitle,
+            let url = URL(string: urlStr) else {
+                showErrorAlert(with: ErrorType.invalidURL.localizedDescription)
+                return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

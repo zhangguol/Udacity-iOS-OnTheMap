@@ -96,18 +96,10 @@ class PreviewLoactionController: UIViewController, StoreSubscriber {
 
 private extension PreviewLoactionController {
     func save(location: StudentLocation, completion: @escaping (Result<Void>) -> Void) {
-        let api: ParseAPI = {
-            if let id = location.objectID {
-                return .updateStudentLocation(id: id, location: location)
-            } else {
-                return .createStudentLocation(location: location)
-            }
-        }()
-
-        HTTPClient.shard.jsonRequest(api: api) { result in
-            DispatchQueue.main.async {
-                completion(result.map { _ in })
-            }
+        if let _ = location.objectID {
+            ParseClient.update(location: location, completion: completion)
+        } else {
+            ParseClient.create(location: location, completion: completion)
         }
     }
 }

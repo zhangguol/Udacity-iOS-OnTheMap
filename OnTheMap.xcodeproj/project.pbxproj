@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B201CFAA1F30771C00538080 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201CFA91F30771C00538080 /* ParseClient.swift */; };
+		B201CFAC1F30797300538080 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201CFAB1F30797300538080 /* UdacityClient.swift */; };
 		B21E4EB91F14447000F779E4 /* UdacityAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21E4EB81F14447000F779E4 /* UdacityAccount.swift */; };
 		B21E4EBB1F1446BD00F779E4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21E4EBA1F1446BD00F779E4 /* AppState.swift */; };
 		B21E4EBD1F14470900F779E4 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21E4EBC1F14470900F779E4 /* UIViewController+Alert.swift */; };
@@ -46,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B201CFA91F30771C00538080 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		B201CFAB1F30797300538080 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		B21E4EB81F14447000F779E4 /* UdacityAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityAccount.swift; sourceTree = "<group>"; };
 		B21E4EBA1F1446BD00F779E4 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		B21E4EBC1F14470900F779E4 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
@@ -96,6 +100,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B201CFA51F3076DE00538080 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B22409261F05C48E00D24CC8 /* HttpClient.swift */,
+				B201CFA61F3076F300538080 /* APIs */,
+				B201CFA81F30770600538080 /* Clients */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		B201CFA61F3076F300538080 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				B22409281F05C4F000D24CC8 /* APIProtocol.swift */,
+				B224092C1F05D04400D24CC8 /* ParseAPI.swift */,
+				B2E5E0951F0DBE990093863F /* UdacityAPI.swift */,
+			);
+			name = APIs;
+			sourceTree = "<group>";
+		};
+		B201CFA81F30770600538080 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				B201CFA91F30771C00538080 /* ParseClient.swift */,
+				B201CFAB1F30797300538080 /* UdacityClient.swift */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
 		B22408F51F05C3B900D24CC8 = {
 			isa = PBXGroup;
 			children = (
@@ -170,10 +203,7 @@
 		B22409241F05C44900D24CC8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B22409261F05C48E00D24CC8 /* HttpClient.swift */,
-				B22409281F05C4F000D24CC8 /* APIProtocol.swift */,
-				B224092C1F05D04400D24CC8 /* ParseAPI.swift */,
-				B2E5E0951F0DBE990093863F /* UdacityAPI.swift */,
+				B201CFA51F3076DE00538080 /* Networking */,
 				B224092A1F05C73C00D24CC8 /* Result.swift */,
 				B21E4EBA1F1446BD00F779E4 /* AppState.swift */,
 				B21E4EBC1F14470900F779E4 /* UIViewController+Alert.swift */,
@@ -316,6 +346,8 @@
 				B22409291F05C4F000D24CC8 /* APIProtocol.swift in Sources */,
 				B26249001F2BDBB200D8295E /* StoreSubscription.swift in Sources */,
 				B224092B1F05C73C00D24CC8 /* Result.swift in Sources */,
+				B201CFAA1F30771C00538080 /* ParseClient.swift in Sources */,
+				B201CFAC1F30797300538080 /* UdacityClient.swift in Sources */,
 				B2AA97631F0EF7A600352E82 /* UserData.swift in Sources */,
 				B2E5E0921F0DB6E30093863F /* StudentLocation.swift in Sources */,
 				B22409041F05C3B900D24CC8 /* LoginViewController.swift in Sources */,

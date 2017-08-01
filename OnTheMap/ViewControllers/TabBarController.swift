@@ -98,7 +98,7 @@ class TabBarController: UITabBarController, StoreSubscriber {
             switch command {
             case .loadLocations(let handler):
                 store.dispatch(.updateLoadingState(isLoading: true))
-                fetchStudentLocations(completion: handler)
+                loadLocations(completion: handler)
             case .checkPosted(let handler):
                 checkCurrentUserLocationPosted(completion: handler)
             case .presentAddLocationController(let location):
@@ -129,6 +129,42 @@ class TabBarController: UITabBarController, StoreSubscriber {
 }
 
 private extension TabBarController {
+    func loadLocations(completion: @escaping (Result<[StudentLocation]>) -> Void) {
+        let group = DispatchGroup()
+
+        var error: Error?
+        group.enter()
+        var locations: [StudentLocation] = []
+        fetchStudentLocations { result in
+            switch result {
+            case .success(let ls): locations = ls
+            case .failure(let e): error = e
+            }
+            group.leave()
+        }
+
+        group.enter()
+        var selfLocation: StudentLocation? = nil
+        checkCurrentUserLocationPosted { result in
+            switch result {
+            case .success(let location): selfLocation = location
+            default: break
+            }
+            group.leave()
+        }
+
+        group.notify(queue: .main) {
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            selfLocation.map { locations.insert($0, at: 0) }
+            
+            completion(.success(locations))
+        }
+    }
+    
     func fetchStudentLocations(completion: @escaping (Result<[StudentLocation]>) -> Void) {
         let api = ParseAPI.getStudentLocations(limit: nil, skip: nil, order: nil)
         HTTPClient.shard.jsonRequest(api: api) { result in

@@ -44,6 +44,7 @@ class AddLocationController: UIViewController, StoreSubscriber {
         case .cancel: command = .cancel
         case let .findLocation(location):
             command = .findLocation(location: location) { result in
+                self?.store.dispatch(.updateLoadingState(isLoading: false))
                 switch result {
                 case .success(let (location, placemark)):
                     self?.store.dispatch(.showMap(ofLocation: location, placemark: placemark))
@@ -75,6 +76,7 @@ class AddLocationController: UIViewController, StoreSubscriber {
             case .cancel:
                 navigationController?.popViewController(animated: true)
             case let .findLocation(location, handler):
+                store.dispatch(.updateLoadingState(isLoading: true))
                 findLoaction(location, completion: handler)
             case .showErrorAlert(message: let msg):
                 showErrorAlert(with: msg)
@@ -97,6 +99,7 @@ class AddLocationController: UIViewController, StoreSubscriber {
         if previousState == nil
             || previousState!.isLoading != state.isLoading {
             (state.isLoading ? loadingIndicator.startAnimating : loadingIndicator.stopAnimating)()
+            findLocationButton.isEnabled = !state.isLoading
         }
     }
 }
